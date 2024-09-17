@@ -1,0 +1,27 @@
+From f655709f62c23d7651ec3d444a6d18f7e4cffe88 Mon Sep 17 00:00:00 2001
+From: Ian Fitchet <ifitchet@anaconda.com>
+Date: Mon, 16 Sep 2024 16:42:01 +0100
+Subject: [PATCH] remove test against base.BaseReduceTests
+
+---
+ tests/compliance/json/test_json_compliance.py | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/tests/compliance/json/test_json_compliance.py b/tests/compliance/json/test_json_compliance.py
+index 18610a0..61348d0 100644
+--- a/tests/compliance/json/test_json_compliance.py
++++ b/tests/compliance/json/test_json_compliance.py
+@@ -238,10 +238,6 @@ class TestJSONArrayPrinting(base.BasePrintingTests):
+     pass
+ 
+ 
+-class TestJSONArrayReduce(base.BaseReduceTests):
+-    pass
+-
+-
+ class TestJSONArrayReshaping(base.BaseReshapingTests):
+     @pytest.mark.skip(reason="2D support not implemented for JSONArray")
+     def test_transpose(self, data):
+-- 
+2.39.3 (Apple Git-146)
+

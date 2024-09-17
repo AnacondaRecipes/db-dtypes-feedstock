@@ -8,7 +8,7 @@ package:
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/db_dtypes-{{ version }}.tar.gz
   sha256: 7bcbc8858b07474dc85b77bb2f3ae488978d1336f5ea73b58c39d9118bc3e91b
-  patches:
+  patches:                                                         # [py<39]
     # pandas 2.0.3 (last py38 build) does not support BaseReduceTests
     - patches/0001-remove-test-against-base.BaseReduceTests.patch  # [py<39]
 
