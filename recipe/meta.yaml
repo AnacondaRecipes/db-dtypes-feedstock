@@ -39,6 +39,14 @@ requirements:
 {% set tests_to_skip = tests_to_skip + " test_getitems_when_iter_with_null" %}  # [py<39]
 {% set tests_to_skip = tests_to_skip + " or test_to_numpy" %}                   # [py<39]
 
+# ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()
+{% set tests_to_skip = tests_to_skip + " or "test_date_max_2d" %}               # [s390x]
+{% set tests_to_skip = tests_to_skip + " or "test_date_min_2d" %}               # [s390x]
+{% set tests_to_skip = tests_to_skip + " or "test_date_median_2d" %}            # [s390x]
+# AssertionError: assert array(...)
+{% set tests_to_skip = tests_to_skip + " or "test_asdatetime %}                 # [s390x]
+
+
 # pandas 2.0.3 (last py38 build) really doesn't like the JSON
 # compliance tests, 325 of them
 {% set tests_to_ignore = "" %}
