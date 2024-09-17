@@ -8,6 +8,9 @@ package:
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/db_dtypes-{{ version }}.tar.gz
   sha256: 7bcbc8858b07474dc85b77bb2f3ae488978d1336f5ea73b58c39d9118bc3e91b
+  patches:
+    # pandas 2.0.3 (last py38 build) does not support BaseReduceTests
+    - patches/0001-remove-test-against-base.BaseReduceTests.patch  # [py<39]
 
 build:
   number: 0
@@ -15,6 +18,9 @@ build:
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
+  build:
+    - patch     # [not win]
+    - m2-patch  # [win]
   host:
     - python
     - pip
@@ -27,6 +33,18 @@ requirements:
     - pyarrow >=3.0.0
     - numpy >=1.16.6
 
+# pandas 2.0.3 (last py38 build) doesn't support this attribute
+{% set tests_to_skip = "" %}
+# AttributeError: 'JSONArray' object has no attribute '_data'
+{% set tests_to_skip = tests_to_skip + " test_getitems_when_iter_with_null" %}  # [py<39]
+{% set tests_to_skip = tests_to_skip + " or test_to_numpy" %}                   # [py<39]
+
+# pandas 2.0.3 (last py38 build) really doesn't like the JSON
+# compliance tests, 325 of them
+{% set tests_to_ignore = "" %}
+# NotImplementedError: <class 'db_dtypes.json.JSONArray'> does not support reshape as backed by a 1D pyarrow.ChunkedArray
+{% set tests_to_ignore = tests_to_ignore + " --ignore=tests/compliance/json/test_json_compliance.py" %}  # [py<39]
+
 test:
   source_files:
     - tests
@@ -37,7 +55,8 @@ test:
     - pytest
   commands:
     - pip check
-    - pytest -v tests
+    - pytest -v tests {{ tests_to_ignore }} -k "not ({{ tests_to_skip }})" # [py<39]
+    - pytest -v tests                                                      # [py>=39]
 
 about:
   home: https://github.com/googleapis/python-db-dtypes-pandas
