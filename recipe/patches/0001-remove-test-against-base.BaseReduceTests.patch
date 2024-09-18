@@ -3,6 +3,8 @@ From: Ian Fitchet <ifitchet@anaconda.com>
 Date: Mon, 16 Sep 2024 16:42:01 +0100
 Subject: [PATCH] remove test against base.BaseReduceTests
 
+pandas 2.0.3 (last py38 build) does not support BaseReduceTests
+
 ---
  tests/compliance/json/test_json_compliance.py | 4 ----
  1 file changed, 4 deletions(-)
