@@ -38,9 +38,6 @@ requirements:
 # AttributeError: 'JSONArray' object has no attribute '_data'
 {% set tests_to_skip = tests_to_skip + "test_getitems_when_iter_with_null" %}   # [py<39]
 {% set tests_to_skip = tests_to_skip + " or test_to_numpy" %}                   # [py<39]
-
-{% set tests_to_skip = tests_to_skip + " or " %}                                # [py<39]
-
 # pandas 2.0.3 (last py38 build) really doesn't like the JSON
 # compliance tests, 325 of them
 {% set tests_to_ignore = "" %}
